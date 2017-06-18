@@ -71,6 +71,7 @@ class Users extends REST_Controller {
       'member_id' => $this->post('member_id'),
       'name'      => $this->post('name'),
       'email'     => $this->post('email'),
+      'phone'     => $this->post('phone'),
       'password'  => sha1($this->post('password'))
     );
 
