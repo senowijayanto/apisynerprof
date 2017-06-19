@@ -1,9 +1,4 @@
 .phpintel
-
 .c9
-
-<<<<<<< HEAD
 .htaccess
-=======
-.htaccess
->>>>>>> master
+application/logs/*
