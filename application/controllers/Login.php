@@ -37,6 +37,8 @@ class Login extends REST_Controller {
       $data['member_id']  = $value->member_id;
       $data['name']       = $value->name;
       $data['email']      = $value->email;
+      $data['phone']      = $value->phone;
+      $data['status']     = $value->status;
     }
 
     $this->response([

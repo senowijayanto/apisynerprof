@@ -10,10 +10,10 @@ class Users extends REST_Controller {
   }
 
   public function index_get() {
+    
     $users = $this->db->get('users')->result();
 
     $id = $this->get('id');
-
     // If the id parameter doesn't exist return all the users
 
     if ($id === NULL)
@@ -71,6 +71,7 @@ class Users extends REST_Controller {
       'member_id' => $this->post('member_id'),
       'name'      => $this->post('name'),
       'email'     => $this->post('email'),
+      'phone'     => $this->post('phone'),
       'password'  => sha1($this->post('password'))
     );
 
