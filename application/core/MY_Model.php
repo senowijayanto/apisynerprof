@@ -4,27 +4,24 @@ class MY_Model extends CI_Model {
 	var $table_name="";
 	var $row_data= NULL;
 
-	var $db_read = NULL;
-	var $db_click = NULL;
-
 	function  __construct(){
 		parent::__construct();
 	}
 
 	function get( $select = NULL, $filter = array(), $order_by=NULL, $limit = NULL, $offset = NULL, $type = 'object' ){
 		if( !empty($select) && is_array( $select )){
-			$this->db_read->select( implode(", ", $select) );
+			$this->db->select( implode(", ", $select) );
 		}
 
 		if( $order_by != NULL ){
 			foreach( $order_by as $key => $option )
-				$this->db_read->order_by( $key, $option );
+				$this->db->order_by( $key, $option );
 		}
 
 		if( is_array( $filter ) AND count( $filter ) >0 ) {
-			$query = $this->db_read->get_where( $this->table_name, $filter, $limit, $offset );
+			$query = $this->db->get_where( $this->table_name, $filter, $limit, $offset );
 		} else {
-			$query = $this->db_read->get( $this->table_name, $limit, $offset );
+			$query = $this->db->get( $this->table_name, $limit, $offset );
 		}
 
 		return( $query->result( $type ) );
@@ -33,65 +30,65 @@ class MY_Model extends CI_Model {
 	function search( $select = NULL, $filter = array(), $order_by=NULL, $limit = NULL, $offset = NULL, $type = 'object', $joins = array(), $where_default = array(), $group_by = array() ){
 
 		if( !empty($select) && is_array( $select )){
-			$this->db_read->select( implode(", ", $select) );
+			$this->db->select( implode(", ", $select) );
 		}
 
 		if( $order_by != NULL ){
 			foreach( $order_by as $key => $option ){
-				$this->db_read->order_by( $key, $option );
+				$this->db->order_by( $key, $option );
 			}
 		}
 
 		if( is_array( $filter ) AND count( $filter ) > 0 ) {
-			$this->db_read->group_start();
+			$this->db->group_start();
 			foreach ($filter as $key => $value) {
 				$method = $value['method'];
 				$match = $value['match'];
-				if(is_callable(array($this->db_read, $method))){
+				if(is_callable(array($this->db, $method))){
 					if(!is_null($match) || is_numeric($match)){
-						$this->db_read->{$method}($key, $match);
+						$this->db->{$method}($key, $match);
 					}else{
-						$this->db_read->{$method}($key);
+						$this->db->{$method}($key);
 					}
 				}
 			}
-			$this->db_read->group_end();
+			$this->db->group_end();
 		}
 
 		if( is_array( $where_default ) AND count( $where_default ) > 0 ) {
 			if( is_array( $filter ) AND count( $filter ) > 0 ) {
-				$this->db_read->group_start();
+				$this->db->group_start();
 			}
 			foreach ($where_default as $key => $value) {
 				$method = $value['method'];
 				$match = $value['match'];
-				if(is_callable(array($this->db_read, $method))){
+				if(is_callable(array($this->db, $method))){
 					if(!is_null($match) || is_numeric($match)){
-						$this->db_read->{$method}($key, $match);
+						$this->db->{$method}($key, $match);
 					}else{
-						$this->db_read->{$method}($key);
+						$this->db->{$method}($key);
 					}
 				}
 			}
 			if( is_array( $filter ) AND count( $filter ) > 0 ) {
-				$this->db_read->group_end();
+				$this->db->group_end();
 			}
 		}
 
 		if( is_array( $group_by ) AND count( $group_by ) > 0 ) {
-			$this->db_read->group_by($group_by);
+			$this->db->group_by($group_by);
 		}
 
 		if( is_array( $joins ) AND count( $joins ) > 0 ) {
 			foreach ($joins as $join) {
 				if(!empty($join['table']) && !empty($join['cond'])){
-					$this->db_read->join($join['table'],$join['cond'],$join['type'],$join['escape']);
+					$this->db->join($join['table'],$join['cond'],$join['type'],$join['escape']);
 				}
 			}
 		}
 
 
-		$query = $this->db_read->get( $this->table_name, $limit, $offset );
+		$query = $this->db->get( $this->table_name, $limit, $offset );
 
 		return( $query->result( $type ) );
 	}
@@ -103,48 +100,48 @@ class MY_Model extends CI_Model {
 				$method = $value['method'];
 				$match = $value['match'];
 				if(!is_null($match) || is_numeric($match)){
-					$this->db_read->{$method}($key, $match);
+					$this->db->{$method}($key, $match);
 				}else{
-					$this->db_read->{$method}($key);
+					$this->db->{$method}($key);
 				}
 			}
 		}
 
 		if( is_array( $where_default ) AND count( $where_default ) > 0 ) {
 			if( is_array( $filter ) AND count( $filter ) > 0 ) {
-				$this->db_read->group_start();
+				$this->db->group_start();
 			}
 			foreach ($where_default as $key => $value) {
 				$method = $value['method'];
 				$match = $value['match'];
-				if(is_callable(array($this->db_read, $method))){
+				if(is_callable(array($this->db, $method))){
 					if(!is_null($match) || is_numeric($match)){
-						$this->db_read->{$method}($key, $match);
+						$this->db->{$method}($key, $match);
 					}else{
-						$this->db_read->{$method}($key);
+						$this->db->{$method}($key);
 					}
 				}
 			}
 			if( is_array( $filter ) AND count( $filter ) > 0 ) {
-				$this->db_read->group_end();
+				$this->db->group_end();
 			}
 		}
 
 		if( is_array( $joins ) AND count( $joins ) > 0 ) {
 			foreach ($joins as $join) {
 				if(!empty($join['table']) && !empty($join['cond'])){
-					$this->db_read->join($join['table'],$join['cond'],$join['type'],$join['escape']);
+					$this->db->join($join['table'],$join['cond'],$join['type'],$join['escape']);
 				}
 			}
 		}
 
 		if( is_array( $group_by ) AND count( $group_by ) > 0 ) {
-			$this->db_read->group_by($group_by);
-			$query = $this->db_read->get( $this->table_name );
+			$this->db->group_by($group_by);
+			$query = $this->db->get( $this->table_name );
 			return $query->num_rows();
 		}else{
-			$this->db_read->from( $this->table_name );
-			return $this->db_read->count_all_results();
+			$this->db->from( $this->table_name );
+			return $this->db->count_all_results();
 		}
 	}
 
@@ -266,13 +263,13 @@ class MY_Model extends CI_Model {
 	}
 
 	function get_where_in( $key, $value_array ){
-		$this->db_read->where_in( $key, $value_array );
-		$query = $this->db_read->get( $this->table_name );
+		$this->db->where_in( $key, $value_array );
+		$query = $this->db->get( $this->table_name );
 		return( $query->result() );
 	}
 
 	function get_table_field(){
-		return $this->db_read->list_fields( $this->table_name );
+		return $this->db->list_fields( $this->table_name );
 	}
 
 	/**
@@ -282,34 +279,34 @@ class MY_Model extends CI_Model {
 	 * @return object
 	 */
 	public function get_by( $key, $value ){
-		$this->db_read->where( $key, $value );
-		return $this->db_read->get( $this->table_name )->row();
+		$this->db->where( $key, $value );
+		return $this->db->get( $this->table_name )->row();
 	}
 
 	function countAll( $data = array() ){
 		foreach ($data as $key => $value) {
 			if(is_array($value)){
-				$this->db_read->where_in( $key, $value );
+				$this->db->where_in( $key, $value );
 			}else{
-				$this->db_read->where( $key, $value );
+				$this->db->where( $key, $value );
 			}
 		}
 
-		$this->db_read->from( $this->table_name );
-		$count = $this->db_read->count_all_results();
+		$this->db->from( $this->table_name );
+		$count = $this->db->count_all_results();
 		return $count;
 	}
 
 	function sumAll( $select, $data = array() ){
 		foreach ($data as $key => $value) {
 			if(is_array($value)){
-				$this->db_read->where_in( $key, $value );
+				$this->db->where_in( $key, $value );
 			}else{
-				$this->db_read->where( $key, $value );
+				$this->db->where( $key, $value );
 			}
 		}
-		$this->db_read->from( $this->table_name );
-		$sum = $this->db_read->select_sum($select);
+		$this->db->from( $this->table_name );
+		$sum = $this->db->select_sum($select);
 		return $sum;
 	}
 
@@ -358,7 +355,7 @@ class MY_Model extends CI_Model {
 		if( $which == 'master'){
 			return $this->db->last_query();
 		}else{
-			return $this->db_read->last_query();
+			return $this->db->last_query();
 		}
 	}
 }
