@@ -33,16 +33,17 @@ class Auth extends CI_Controller {
           $this->admins_model->update(
             array(
               'last_login_at' => date('Y-m-d H:i:s'),
-              // 'last_login_ip' => $this->get_client_ip_address()
+              'last_login_ip' => $this->get_client_ip_address()
             ),
             array(
               'id' => $user->id
             )
           );
           $this->session->set_userdata( $session );
-          echo "<a href='logout'>Logout</a>";
+
+          redirect('admin/dashboard');
         } else {
-          echo "Password error!";
+          redirect('admin/login');
         }
       }
       exit();
