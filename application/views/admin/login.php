@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="<?php echo base_url().'assets/dist/css/AdminLTE.min.css';?>">
   <!-- iCheck -->
   <link rel="stylesheet" href="<?php echo base_url().'assets/plugins/iCheck/square/blue.css';?>">
+  <!-- favicon -->
+  <link rel="icon" href="<?php echo base_url().'assets/images/favicon.ico';?>" sizes="16x16">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -8,7 +8,7 @@ class Auth extends CI_Controller {
   }
 
   public function login() {
-    $salt     = $this->config->item('encryption_key');
+    $salt     = config_item('encryption_key');
     $username = $this->input->post('username');
     $password = $this->input->post('password');
 

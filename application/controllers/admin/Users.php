@@ -8,8 +8,11 @@ class Users extends CI_Controller {
   }
 
   public function index() {
-    $data['content']  = 'admin/users';
-    $data['title']    = 'Users Data';
+    $this->load->model('users_model');
+    $data['users_model']  = $this->users_model;
+    $data['users']        = $this->users_model->get();
+    $data['content']      = 'admin/users';
+    $data['title']        = 'Users Data';
     $this->load->view('admin/template', $data);
   }
 }

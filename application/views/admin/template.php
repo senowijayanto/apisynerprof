@@ -16,7 +16,9 @@
   <link rel="stylesheet" href="<?php echo base_url().'assets/dist/css/AdminLTE.min.css';?>">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?php echo base_url().'assets/dist/css/skins/_all-skins.min.css';?>">
+  <link rel="stylesheet" href="<?php echo base_url().'assets/dist/css/skins/skin-blue.min.css';?>">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="<?php echo base_url().'assets/plugins/datatables/dataTables.bootstrap.css';?>">
   <!-- iCheck -->
   <link rel="stylesheet" href="<?php echo base_url().'assets/plugins/iCheck/flat/blue.css';?>">
   <!-- Date Picker -->
@@ -25,6 +27,8 @@
   <link rel="stylesheet" href="<?php echo base_url().'assets/plugins/daterangepicker/daterangepicker.css';?>">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?php echo base_url().'assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css';?>">
+  <!-- favicon -->
+  <link rel="icon" href="<?php echo base_url().'assets/images/favicon.ico';?>" sizes="16x16">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -141,6 +145,9 @@
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url().'assets/bootstrap/js/bootstrap.min.js';?>"></script>
+<!-- DataTables -->
+<script src="<?php echo base_url().'assets/plugins/datatables/jquery.dataTables.min.js';?>"></script>
+<script src="<?php echo base_url().'assets/plugins/datatables/dataTables.bootstrap.min.js';?>"></script>
 <!-- Sparkline -->
 <script src="<?php echo base_url().'assets/plugins/sparkline/jquery.sparkline.min.js';?>"></script>
 <!-- daterangepicker -->
@@ -156,5 +163,12 @@
 <script src="<?php echo base_url().'assets/plugins/fastclick/fastclick.js';?>"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url().'assets/dist/js/app.min.js';?>"></script>
+<!-- page script -->
+<script>
+  $(function () {
+    $("#syner_table").DataTable();
+    $(".textarea").wysihtml5();
+  });
+</script>
 </body>
 </html>
