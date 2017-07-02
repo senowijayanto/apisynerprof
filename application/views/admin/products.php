@@ -12,8 +12,6 @@
         <th>Category</th>
         <th>Name</th>
         <th>Image</th>
-        <th>Created At</th>
-        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -32,10 +30,16 @@
           ?>
           <tr>
             <td><?php echo $category ;?></td>
-            <td><?php echo $product->name ;?></td>
+            <td>
+              <div class="">
+                <?php echo $product->name ;?>
+              </div>
+              <div class="">
+                <a href="<?php echo site_url('admin/products/edit/'. $product->id);?>">Edit</a> |
+                <a href="#">Delete</a>
+              </div>
+            </td>
             <td><img src="<?php echo base_url().'uploads/products/' . $product->image;?>" alt="" width="100" height="100" /></td>
-            <td><?php echo $product->created_at ;?></td>
-            <td>&nbsp;</td>
           </tr>
         <?php endforeach; endif; ?>
       </tbody>
@@ -44,8 +48,6 @@
         <th>Category</th>
         <th>Name</th>
         <th>Image</th>
-        <th>Created At</th>
-        <th>Actions</th>
       </tr>
       </tfoot>
     </table>
