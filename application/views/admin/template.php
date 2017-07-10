@@ -27,6 +27,9 @@
   <link rel="stylesheet" href="<?php echo base_url().'assets/plugins/daterangepicker/daterangepicker.css';?>">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?php echo base_url().'assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css';?>">
+  <!-- Sweet Alert -->
+  <link href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet">
   <!-- favicon -->
   <link rel="icon" href="<?php echo base_url().'assets/images/favicon.ico';?>" sizes="16x16">
 
@@ -163,12 +166,70 @@
 <script src="<?php echo base_url().'assets/plugins/fastclick/fastclick.js';?>"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url().'assets/dist/js/app.min.js';?>"></script>
+<!-- Sweet Alert -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#syner_table").DataTable();
-    $(".textarea").wysihtml5();
-  });
+  // $(function () {
+  //   $("#syner_table").DataTable();
+  //   $(".textarea").wysihtml5();
+  // });
+  (function ($) {
+    "use strict";
+
+    var Synerprof = {
+      init: function() {
+        $(document)
+        .on('ready', this.on_ready)
+        .on('click', 'a.delete', this.delete)
+      },
+      on_ready: function() {
+        $('#syner_table').DataTable();
+        $('.textarea').wysihtml5();
+      },
+      delete: function(e) {
+        e.preventDefault();
+        var self = $(this);
+        swal({
+          title: "Are you sure you want to delete this product?",
+  				type: "warning",
+  				showCancelButton: true,
+  				confirmButtonColor: "#DD6B55",
+  				confirmButtonText: "Yes, delete it!",
+  				closeOnConfirm: false,
+  				showLoaderOnConfirm: true,
+        }, function() {
+          $.ajax({
+            url: self.attr('href'),
+            type: "GET",
+            data: {},
+            success: function(response) {
+              response.closeOnConfirm = true;
+              response.confirmButtonText = "CLOSE";
+              if (response.type == 'success') {
+                swal(
+                  response,
+                  function() {
+                    location.reload();
+                  }
+                );
+              }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              swal({
+                title: 'Error ' + jqXHR.status,
+                text: errorThrown,
+                type: "error"
+              });
+            }
+          })
+        });
+      }
+    }
+
+    Synerprof.init();
+
+  })(jQuery);
 </script>
 </body>
 </html>

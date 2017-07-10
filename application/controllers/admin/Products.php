@@ -9,7 +9,7 @@ class Products extends CI_Controller {
   }
 
   public function index() {
-    $data['products'] = $this->products_model->get();
+    $data['products'] = $this->products_model->get(NULL, array('deleted' => 0));
     $data['content']  = 'admin/products';
     $data['title']    = 'Products Data';
     $this->load->view('admin/template', $data);
@@ -132,5 +132,35 @@ class Products extends CI_Controller {
     $data['title']    = 'Edit Product';
     $data['content']  = 'admin/edit_product';
     $this->load->view('admin/template', $data);
+  }
+
+  public function delete( $id = 0 ) {
+    $id = (int) $id;
+
+    if (!$id) {
+      $data = array(
+        'type' => 'error',
+        'title' => 'Error',
+        'text' => 'Invalid ID!'
+      );
+    } else {
+      if( $this->products_model->update( array('deleted' => 1), array('id' => $id) ) ){
+				$data = array(
+					'type' => 'success',
+					'title' => 'Success',
+					'text' => 'Record has been successfully deleted!'
+				);
+			}else{
+				$data = array(
+					'type' => 'error',
+					'title' => 'Error',
+					'text' => 'An error occurred while deleting the record!'
+				);
+			}
+    }
+
+    $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($data));
   }
 }

@@ -9,8 +9,8 @@
     <table id="syner_table" class="table table-bordered table-striped">
       <thead>
       <tr>
-        <th>Category</th>
         <th>Name</th>
+        <th>Category</th>
         <th>Image</th>
       </tr>
       </thead>
@@ -29,24 +29,24 @@
             }
           ?>
           <tr>
-            <td><?php echo $category ;?></td>
             <td>
               <div class="">
                 <?php echo $product->name ;?>
               </div>
               <div class="">
-                <a href="<?php echo site_url('admin/products/edit/'. $product->id);?>">Edit</a> |
-                <a href="#">Delete</a>
+                <a href="<?php echo site_url('admin/products/edit/'.$product->id);?>">Edit</a> |
+                <a href="<?php echo site_url('admin/products/delete/'.$product->id);?>" class="delete">Delete</a>
               </div>
             </td>
+            <td><?php echo $category ;?></td>
             <td><img src="<?php echo base_url().'uploads/products/' . $product->image;?>" alt="" width="100" height="100" /></td>
           </tr>
         <?php endforeach; endif; ?>
       </tbody>
       <tfoot>
       <tr>
-        <th>Category</th>
         <th>Name</th>
+        <th>Category</th>
         <th>Image</th>
       </tr>
       </tfoot>

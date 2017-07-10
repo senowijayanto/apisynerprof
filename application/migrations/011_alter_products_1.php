@@ -7,6 +7,11 @@ class Migration_Alter_products_1 extends CI_Migration {
         'type' => 'DATETIME',
         'null' => TRUE,
         'default' => NULL
+			),
+			'deleted' => array(
+				'type' => 'TINYINT',
+        'constraint' => 1,
+        'default' => 0
 			)
 		);
 		$this->dbforge->add_column( 'products', $fields );

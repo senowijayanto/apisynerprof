@@ -36,13 +36,13 @@
           <div class="form-group">
             <label for="inputRecomended" class="col-sm-2 control-label">Recommended</label>
             <div class="col-sm-10">
-              <input type="text" name="recomended" class="form-control" placeholder="Recommended Uses" value="<?php echo $product->recomended;?>">
+              <textarea class="textarea" name="recomended" placeholder="Place some recomended uses here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"><?php echo $product->recomended;?></textarea>
             </div>
           </div>
           <div class="form-group">
             <label for="inputIngredients" class="col-sm-2 control-label">Ingredients</label>
             <div class="col-sm-10">
-              <input type="text" name="ingredients" class="form-control" placeholder="Ingredients" value="<?php echo $product->ingredients;?>">
+              <textarea class="textarea" name="ingredients" placeholder="Place some ingredients here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"><?php echo $product->ingredients;?></textarea>
             </div>
           </div>
           <div class="form-group">
