@@ -23,41 +23,67 @@ class Products extends CI_Controller {
     $recomended   = $this->input->post('recomended');
     $ingredients  = $this->input->post('ingredients');
 
+    $products = array(
+      'category'    => $category,
+      'name'        => $name,
+      'description' => $description,
+      'benefits'    => $benefits,
+      'recomended'  => $recomended,
+      'ingredients' => $ingredients,
+      'created_at'  => date("Y-m-d H:i:s")
+    );
+
     if ( $this->input->post() ) {
-      $upload_path_base = 'products/';
-      $upload_path = FCPATH . config_item( 'cdn_path' ) . $upload_path_base;
+      if ( $_FILES['image']['name'] ) {
+        $upload_path_base = 'products/';
+        $upload_path = FCPATH . config_item( 'cdn_path' ) . $upload_path_base;
 
-      if ( ! is_dir( $upload_path ) ) {
-        mkdir( $upload_path, 0755, TRUE );
-      }
+        if ( ! is_dir( $upload_path ) ) {
+          mkdir( $upload_path, 0755, TRUE );
+        }
 
-      $config = array(
-        'upload_path'   => $upload_path,
-        'allowed_types' => 'gif|jpg|png',
-        'encrypt_name'  => TRUE
-      );
+        $config = array(
+          'upload_path'   => $upload_path,
+          'allowed_types' => 'gif|jpg|png',
+          'encrypt_name'  => TRUE
+        );
 
-      $this->load->library('upload', $config);
+        $this->load->library('upload', $config);
 
-      if ( ! $this->upload->do_upload('image') ) {
-        $data['err']  = $this->upload->display_errors();
+        if ( $this->upload->do_upload('image') ) {
+          $upload_data        = $this->upload->data();
+
+          $products['image']  = $upload_data['file_name'];
+
+          $configThumb = array(
+            'image_library'   =>'gd2',
+            'source_image'    => $upload_data['full_path'],
+            'new_image'       => $upload_path . '/thumb_' . $upload_data['file_name'],
+            'maintain_ratio'  => TRUE,
+            'log_threshold'   => 2,
+            'width'           => 100,
+            'height'          => 100
+          );
+
+          $this->load->library('image_lib');
+          $this->image_lib->initialize( $configThumb, true );
+
+          if ( $this->image_lib->resize() ){
+            $products['thumbnail'] = 'thumb_' . $upload_data['file_name'];
+          }else{
+            $data['err'] = $this->image_lib->display_errors();
+            break;
+          }
+          
+          $this->image_lib->clear();
+          $save = $this->products_model->insert( $products );
+        } else {
+          $data['err']  = $this->upload->display_errors();
+          break;
+        }
       } else {
-        $upload_file  = array( 'upload_data' => $this->upload->data() );
-        $image        = $upload_file['upload_data'];
+        $save = $this->products_model->insert( $products );
       }
-
-      $products = array(
-        'category'    => $category,
-        'name'        => $name,
-        'description' => $description,
-        'benefits'    => $benefits,
-        'recomended'  => $recomended,
-        'ingredients' => $ingredients,
-        'image'       => $image['file_name'],
-        'created_at'  => date("Y-m-d H:i:s")
-      );
-
-      $save = $this->products_model->insert( $products );
 
       if ( $save ) {
         redirect('admin/products');
@@ -108,16 +134,39 @@ class Products extends CI_Controller {
 
         $this->load->library('upload', $config);
 
-        if ( ! $this->upload->do_upload('image') ) {
-          // If upload failed
-          $data['err']  = $this->upload->display_errors();
-        } else {
+        if ( $this->upload->do_upload('image') ) {
           // If upload success
           @unlink($upload_path.$file_name); // Delete old image
-          $upload_file        = array( 'upload_data' => $this->upload->data() );
-          $image              = $upload_file['upload_data'];
-          $products['image']  = $image['file_name'];
+          @unlink($upload_path.'/thumb_'.$file_name);
+
+          $upload_data        = $this->upload->data();
+          $products['image']  = $upload_data['file_name'];
+
+          $configThumb = array(
+            'image_library'   =>'gd2',
+            'source_image'    => $upload_data['full_path'],
+            'new_image'       => $upload_path . '/thumb_' . $upload_data['file_name'],
+            'maintain_ratio'  => TRUE,
+            'log_threshold'   => 2,
+            'width'           => 100,
+            'height'          => 100
+          );
+
+          $this->load->library('image_lib');
+          $this->image_lib->initialize( $configThumb, true );
+
+          if ( $this->image_lib->resize() ){
+            $products['thumbnail'] = 'thumb_' . $upload_data['file_name'];
+          }else{
+            $data['err'] = $this->image_lib->display_errors();
+            break;
+          }
+          $this->image_lib->clear();
+
           $update = $this->products_model->update( $products, array( 'id' => $id ) );
+        } else {
+          // If upload failed
+          $data['err']  = $this->upload->display_errors();
         }
       } else {
         $update = $this->products_model->update( $products, array( 'id' => $id ) );

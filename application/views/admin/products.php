@@ -39,7 +39,7 @@
               </div>
             </td>
             <td><?php echo $category ;?></td>
-            <td><img src="<?php echo base_url().'uploads/products/' . $product->image;?>" alt="" width="100" height="100" /></td>
+            <td><img src="<?php echo base_url().'uploads/products/' . $product->thumbnail;?>" alt="" /></td>
           </tr>
         <?php endforeach; endif; ?>
       </tbody>

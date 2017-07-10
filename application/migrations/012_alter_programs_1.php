@@ -1,5 +1,5 @@
 <?php
-class Migration_Alter_products_1 extends CI_Migration {
+class Migration_Alter_programs_1 extends CI_Migration {
 
 	public function up(){
 		$fields = array(
@@ -19,9 +19,9 @@ class Migration_Alter_products_1 extends CI_Migration {
 				'after' => 'image'
 			)
 		);
-		$this->dbforge->add_column( 'products', $fields );
+		$this->dbforge->add_column( 'programs', $fields );
 
-		echo 'Up migration 011';
+		echo 'Up migration 012';
 	}
 
 	public function down(){
@@ -30,6 +30,6 @@ class Migration_Alter_products_1 extends CI_Migration {
 		$this->dbforge->drop_column( 'products', 'deleted' );
 		$this->dbforge->drop_column( 'products', 'thumbnail' );
 
-		echo 'Down migration 011';
+		echo 'Down migration 012';
 	}
 }
