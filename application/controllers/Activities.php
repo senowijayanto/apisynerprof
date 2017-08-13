@@ -82,15 +82,40 @@ class Activities extends REST_Controller {
         'message' => 'Insert Success'
       ], REST_Controller::HTTP_OK);
     } else {
-      $this->response(array('status' => 'fail', 502));
+      $this->response(array('status' => FALSE, 502));
     }
   }
 
   public function index_put() {
+    $id = (int) $this->put('id');
+    $data = array(
+      'activity'      => $this->put('activity'),
+      'date_activity' => $this->put('date_activity'),
+      'updated_at'    => date('Y-m-d H:i:s')
+    );
 
+    $this->db->where('id', $id);
+    $update = $this->db->update('activities', $data);
+    if ($update) {
+      $this->response([
+        'status'  => TRUE,
+        'message' => 'Update Success'
+      ], REST_Controller::HTTP_OK);
+    } else {
+      $this->response(array('status' => FALSE, 502));
+    }
   }
 
-  public function index_delete() {
-
+  public function index_delete($id) {
+    $id = (int) $id;
+    $delete = $this->db->delete('activities', array('id' => $id));
+    if ($delete) {
+      $this->response([
+        'status'  => TRUE,
+        'message' => 'Delete Success'
+      ], REST_Controller::HTTP_OK);
+    } else {
+      $this->response(array('status' => FALSE, 502));
+    }
   }
 }
