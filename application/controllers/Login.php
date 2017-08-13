@@ -46,7 +46,5 @@ class Login extends REST_Controller {
       'status'  => TRUE,
       'message' => 'Login Sukses'
     ], REST_Controller::HTTP_OK);
-
-    exit();
   }
 }

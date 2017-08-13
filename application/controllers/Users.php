@@ -10,7 +10,7 @@ class Users extends REST_Controller {
   }
 
   public function index_get() {
-    
+
     $users = $this->db->get('users')->result();
 
     $id = $this->get('id');
@@ -68,7 +68,7 @@ class Users extends REST_Controller {
 
   public function index_post() {
     $data = array(
-      'member_id' => $this->post('member_id'),
+      'member_id' => $this->post('memberId'),
       'name'      => $this->post('name'),
       'email'     => $this->post('email'),
       'phone'     => $this->post('phone'),
